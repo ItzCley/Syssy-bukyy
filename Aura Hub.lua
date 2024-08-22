@@ -1,215 +1,479 @@
-print("Aura Hub executed!")
-loadstring(game:HttpGet('https://raw.githubusercontent.com/Imgto/Aura-Hub/main/CelertInjectedLogo.lua'))()
-local p = Instance.new("Part")
-p.Position = Vector3.new(-34, 1494, -1120)
-p.Size = Vector3.new(100, 10, 100)
-p.Transparency = 0
-p.Anchored = true  
-p.Parent = workspace
-local plr = game.Players.LocalPlayer
-local sp = 16
-local key = {}
-local monster = {}
-local trickster ={}
-local locker = {}
-local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
-local Window = OrionLib:MakeWindow({
-	Name = "| Aura Hub 🎗️ |",
-	HidePremium = false,
-	SaveConfig = true,
-	ConfigFolder = "AuraHub"
+--// Services
+local UserInputService = game:GetService("UserInputService");
+
+--// Library
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/lxte/lates-lib/main/Main.lua"))()
+local Window = Library:CreateWindow({
+	Title = "???",
+	Theme = "Void",
+	
+	Size = UDim2.fromOffset(570, 430),
+	Transparency = 0.2,
+	Blurring = true,
+	MinimizeKeybind = Enum.KeyCode.LeftAlt,
 })
-local others = Window:MakeTab({
-	Name = "Universal",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+
+local Themes = {
+	Light = {
+		--// Frames:
+		Primary = Color3.fromRGB(232, 232, 232),
+		Secondary = Color3.fromRGB(255, 255, 255),
+		Component = Color3.fromRGB(245, 245, 245),
+		Interactables = Color3.fromRGB(235, 235, 235),
+
+		--// Text:
+		Tab = Color3.fromRGB(50, 50, 50),
+		Title = Color3.fromRGB(0, 0, 0),
+		Description = Color3.fromRGB(100, 100, 100),
+
+		--// Outlines:
+		Shadow = Color3.fromRGB(255, 255, 255),
+		Outline = Color3.fromRGB(210, 210, 210),
+
+		--// Image:
+		Icon = Color3.fromRGB(100, 100, 100),
+	},
+	
+	Dark = {
+		--// Frames:
+		Primary = Color3.fromRGB(30, 30, 30),
+		Secondary = Color3.fromRGB(35, 35, 35),
+		Component = Color3.fromRGB(40, 40, 40),
+		Interactables = Color3.fromRGB(45, 45, 45),
+
+		--// Text:
+		Tab = Color3.fromRGB(200, 200, 200),
+		Title = Color3.fromRGB(240,240,240),
+		Description = Color3.fromRGB(200,200,200),
+
+		--// Outlines:
+		Shadow = Color3.fromRGB(0, 0, 0),
+		Outline = Color3.fromRGB(40, 40, 40),
+
+		--// Image:
+		Icon = Color3.fromRGB(220, 220, 220),
+	},
+	
+	Void = {
+		--// Frames:
+		Primary = Color3.fromRGB(15, 15, 15),
+		Secondary = Color3.fromRGB(20, 20, 20),
+		Component = Color3.fromRGB(25, 25, 25),
+		Interactables = Color3.fromRGB(30, 30, 30),
+
+		--// Text:
+		Tab = Color3.fromRGB(200, 200, 200),
+		Title = Color3.fromRGB(240,240,240),
+		Description = Color3.fromRGB(200,200,200),
+
+		--// Outlines:
+		Shadow = Color3.fromRGB(0, 0, 0),
+		Outline = Color3.fromRGB(40, 40, 40),
+
+		--// Image:
+		Icon = Color3.fromRGB(220, 220, 220),
+	},
+
+}
+
+--// Set the default theme
+Window:SetTheme(Themes.Void)
+
+--// Sections
+Window:AddTabSection({
+	Name = "Aura Hub 🎗️",
+	Order = 1,
 })
-local Tab = Window:MakeTab({
-	Name = "Pressure",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+
+Window:AddTabSection({
+	Name = "Settings",
+	Order = 2,
 })
-local Pet = Window:MakeTab({
-	Name = "Pet simulator 99",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+
+--// Tab [MAIN]
+
+local universal = Window:AddTab({
+	Title = "Universal",
+	Section = "Main",
+	Icon = "rbxassetid://11963373994"
 })
-local ball = Window:MakeTab({
-	Name = "Blade ball",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+local pressure = Window:AddTab({
+	Title = "Pressure",
+	Section = "Main",
+	Icon = "rbxassetid://11963373994"
 })
-local rival = Window:MakeTab({
-	Name = "Rivals",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+local petsim = Window:AddTab({
+	Title = "Pet simulator 99",
+	Section = "Main",
+	Icon = "rbxassetid://11963373994"
 })
-local hood = Window:MakeTab({
-	Name = "Da hood",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+local ball = Window:AddTab({
+	Title = "Blade Ball",
+	Section = "Main",
+	Icon = "rbxassetid://11963373994"
 })
-local arsenal = Window:MakeTab({
-	Name = "Arsenal",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+local rivals = Window:AddTab({
+	Title = "Rivals",
+	Section = "Main",
+	Icon = "rbxassetid://11963373994"
 })
-local tsb = Window:MakeTab({
-	Name = "The Strongest Battlegrounds",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
+local hood = Window:AddTab({
+	Title = "Da Hood",
+	Section = "Main",
+	Icon = "rbxassetid://11963373994"
 })
-tsb:AddLabel("The Strongest Battlegrounds")
-tsb:AddButton({
-	Name = "FFj script",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/FFJ1/Roblox-Exploits/main/scripts/TSBUtils.lua"))()
-	end    
+local arsenal = Window:AddTab({
+	Title = "Arsenal",
+	Section = "Main",
+	Icon = "rbxassetid://11963373994"
 })
-tsb:AddButton({
-	Name = "Sillyware",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/idontknowwhattonamemyself/Statue-Hub/Lua/Main"))()
-	end    
+local tsb = Window:AddTab({
+	Title = "Strongest Battlegrounds",
+	Section = "Main",
+	Icon = "rbxassetid://11963373994"
 })
-arsenal:AddLabel("Arsenal")
-arsenal:AddButton({
-	Name = "Shivam",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/Jajkong/best-arsenal-script/main/arsenal.txt"))()
-	end    
+local credits = Window:AddTab({
+	Title = "Credits",
+	Section = "Main",
+	Icon = "rbxassetid://11963373994"
 })
-arsenal:AddButton({
-	Name = "Thunder Client",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/AndrewDarkyy/ThunderClient/main/main.lua"))()
-	end    
-})
-arsenal:AddButton({
-	Name = "Quotas Hub",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/Insertl/QuotasHub/main/BETAv1.3"))()
-	end    
-})
-hood:AddLabel("Da hood")
-hood:AddButton({
-	Name = "AirHub",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/AirHub.lua", true))()
-	end    
-})
-hood:AddButton({
-	Name = "Space X",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/spacexrandom/Lua/main/DaHood", true))()
-	end    
-})
-rival:AddLabel("Rivals")
-rival:AddButton({
-	Name = "Bailee",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/Baillee/Rivals-script/main/Rivals-script.lua", true))()
-	end    
-})
-rival:AddButton({
-	Name = "Silent",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/KxGOATESQUE/SilentRivals/main/SilentRivals"))()
-	end    
-})
-ball:AddLabel("Blade Ball")
-ball:AddButton({
-	Name = "Visual beta",
-	Callback = function()
-		loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/a5945467f3b9388503ca653c0ea49cba.lua"))()
-	end    
-})
-ball:AddButton({
-	Name = "FFj script",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/FFJ1/Roblox-Exploits/main/scripts/autoparry.lua"))()
-	end    
-})
-ball:AddButton({
-    Name = "Astro",
-	Callback = function()
-		getgenv().Auth = "freenium_auth"
-        loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/b6cc646cf4d4eb44647236da9b7fa2f0.lua"))()
-	end    
-})
-Pet:AddLabel("Pet Simulator 99")
-Pet:AddButton({
-	Name = "Zap hub",
-	Callback = function()
-		loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
-	end    
-})
-Tab:AddLabel("Pressure")
-Tab:AddButton({
-	Name = "Pressure script",
-	Callback = function()
-		loadstring(game:HttpGet('https://raw.githubusercontent.com/Imgto/Aura-Hub/main/Pressure.txt'))()
-	end    
-})
-Tab:AddButton({
-	Name = "Invincibility (God Mode)",
-	Callback = function()
-		loadstring(game:HttpGet("https://rawscripts.net/raw/Pressure-*-Mode-15992"))()
-	end    
-})
-Pet:AddButton({
-	Name = "Zap hub (Solara)",
-	Callback = function()
-		loadstring(game:HttpGet('https://zaphub.xyz/ExecSolara'))()
-	end    
-})
-Pet:AddButton({
-	Name = "Redz Hub (Not verifed!)",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/PetSimulator99/main/redz9999.lua"))()
-	end    
-})
-local credits = Window:MakeTab({
-	Name = "Credits",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
-credits:AddParagraph("Credits to ItzCleyy", "Best developer")
-credits:AddParagraph("Also thanks to all developers thats helps me")
-others:AddLabel("Universal")
-others:AddButton({
-	Name = "Unc Test",
-	Callback = function()
-      		loadstring(game:HttpGet("https://raw.githubusercontent.com/unified-naming-convention/NamingStandard/main/UNCCheckEnv.lua"))()
-  	end    
-})
-others:AddButton({
-	Name = "Infinite yield",
-	Callback = function()
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
-	end   
-})
-others:AddButton({
-	Name = "Sirius",
-	Callback = function()
+
+
+
+Window:AddSection({ Name = "Universal", Tab = universal }) 
+Window:AddSection({ Name = "Pressure", Tab = pressure })
+Window:AddSection({ Name = "Pet Simulator 99", Tab = petsim })
+Window:AddSection({ Name = "Blade Ball", Tab = ball })
+Window:AddSection({ Name = "Rivals", Tab = rivals })
+Window:AddSection({ Name = "Da Hood", Tab = hood })
+Window:AddSection({ Name = "Arsenal", Tab = arsenal })
+Window:AddSection({ Name = "Strongest Battlegrounds", Tab = tsb })
+Window:AddSection({ Name = "Credits", Tab = credits })
+Window:AddSection({ Name = "Settings", Tab = Settings })
+
+Window:AddButton({
+	Title = "Unc Test",
+	Description = "Safe test script.",
+	Tab = universal,
+	Callback = function() 
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/unified-naming-convention/NamingStandard/main/UNCCheckEnv.lua'))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Infinite Yield",
+	Description = "An admin script.",
+	Tab = universal,
+	Callback = function() 
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Sirius",
+	Description = "Script search script.",
+	Tab = universal,
+	Callback = function() 
 		loadstring(game:HttpGet('https://sirius.menu/script'))()
-	end    
-})
-others:AddButton({
-	Name = "System Broken",
-	Callback = function()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "System Broken",
+	Description = "An universal script..",
+	Tab = universal,
+	Callback = function() 
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/H20CalibreYT/SystemBroken/main/script"))()
-	end    
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Pressure Script",
+	Description = "Simply best script.",
+	Tab = pressure,
+	Callback = function() 
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/Imgto/Aura-Hub/main/Pressure.txt'))()
+      
+	end,
+}) Window:AddButton({
+	Title = "Invincibility",
+	Description = "Simply a god mode script.",
+	Tab = pressure,
+	Callback = function() 
+		loadstring(game:HttpGet("https://rawscripts.net/raw/Pressure-*-Mode-15992"))()              
+	end,
+}) 
+Window:AddButton({
+	Title = "Zap hub",
+	Description = "Simply best.",
+	Tab = petsim,
+	Callback = function() 
+		loadstring(game:HttpGet('https://zaphub.xyz/Exec'))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Zap Hub (Solara)",
+	Description = "Zap hub but works with solara.",
+	Tab = petsim,
+	Callback = function() 
+		loadstring(game:HttpGet('https://zaphub.xyz/ExecSolara'))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Redz Hub (Not verifed!)",
+	Description = "Don't use it for now.",
+	Tab = petsim,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/PetSimulator99/main/redz9999.lua"))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Visual Beta",
+	Description = "Simply good script.",
+	Tab = ball,
+	Callback = function() 
+		loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/a5945467f3b9388503ca653c0ea49cba.lua"))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "FFj Script",
+	Description = "Good script.",
+	Tab = ball,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/FFJ1/Roblox-Exploits/main/scripts/autoparry.lua"))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Bailee",
+	Description = "A legit script.",
+	Tab = rivals,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Baillee/Rivals-script/main/Rivals-script.lua", true))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Silent",
+	Description = "A rage script.",
+	Tab = rivals,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/KxGOATESQUE/SilentRivals/main/SilentRivals"))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Air Hub",
+	Description = "Simply not bad script..",
+	Tab = hood,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/AirHub.lua", true))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "SpaceX",
+	Description = "Not tested but good script.",
+	Tab = hood,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/spacexrandom/Lua/main/DaHood", true))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Shivam",
+	Description = "The Best exlusive script.",
+	Tab = arsenal,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Jajkong/best-arsenal-script/main/arsenal.txt"))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Quotas Hub",
+	Description = "Shivam but rage.",
+	Tab = arsenal,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Insertl/QuotasHub/main/BETAv1.3"))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Thunder Client",
+	Description = "The best script.",
+	Tab = arsenal,
+	Callback = function() 
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/sourceloadstring(game:HttpGet("https://raw.githubusercontent.com/AndrewDarkyy/ThunderClient/main/main.lua"))()'))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "FFj script",
+	Description = "Not bad script for now.",
+	Tab = tsb,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/FFJ1/Roblox-Exploits/main/scripts/TSBUtils.lua"))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Sillyware",
+	Description = "Maybe best script.",
+	Tab = tsb,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/idontknowwhattonamemyself/Statue-Hub/Lua/Main"))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Krnl Executor",
+	Description = "An script executor.",
+	Tab = universal,
+	Callback = function() 
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/FreezyWare/Remake-Executor/main/Executor/Krnl-Legacy.Lua"))()
+      
+	end,
+}) 
+Window:AddParagraph({
+	Title = "Credits to ItzCleyy",
+	Description = "And thanks all developers thats helps me!",
+	Tab = credits
+}) 
+
+
+Window:AddSection({ Name = "Interactable", Tab = Main }) 
+
+Window:AddButton({
+	Title = "Button",
+	Description = "I wonder what this does",
+	Tab = Main,
+	Callback = function() 
+		Window:Notify({
+			Title = "hi",
+			Description = "i'm a notification", 
+			Duration = 5
+		})
+	end,
+}) 
+
+Window:AddSlider({
+	Title = "Slider",
+	Description = "Sliding",
+	Tab = Main,
+	MaxValue = 100,
+	Callback = function(Amount) 
+		warn(Amount);
+	end,
+}) 
+
+Window:AddToggle({
+	Title = "Toggle",
+	Description = "Switching",
+	Tab = Main,
+	Callback = function(Boolean) 
+		warn(Boolean);
+	end,
+}) 
+
+Window:AddInput({
+	Title = "Input",
+	Description = "Typing",
+	Tab = Main,
+	Callback = function(Text) 
+		warn(Text);
+	end,
+}) 
+
+
+Window:AddDropdown({
+	Title = "Dropdown",
+	Description = "Selecting",
+	Tab = Main,
+	Options = {
+		["An Option"] = "hi",
+		["And another"] = "hi",
+		["Another"] = "hi",
+	},
+	Callback = function(Number) 
+		warn(Number);
+	end,
+}) 
+
+Window:AddKeybind({
+	Title = "Keybind",
+	Description = "Binding",
+	Tab = Main,
+	Callback = function(Key) 
+		warn("Key Set")
+	end,
+}) 
+
+--// Tab [SETTINGS]
+local Keybind = nil
+local Settings = Window:AddTab({
+	Title = "Settings",
+	Section = "Settings",
+	Icon = "rbxassetid://11293977610",
 })
-others:AddButton({
-	Name = "Krnl Executor",
-	Callback = function()
-      		loadstring(game:HttpGet("https://raw.githubusercontent.com/FreezyWare/Remake-Executor/main/Executor/Krnl-Legacy.Lua"))()
-  	end    
+
+Window:AddKeybind({
+	Title = "Minimize Keybind",
+	Description = "Set the keybind for Minimizing",
+	Tab = Settings,
+	Callback = function(Key) 
+		Window:SetSetting("Keybind", Key)
+	end,
+}) 
+
+Window:AddDropdown({
+	Title = "Set Theme",
+	Description = "Set the theme of the hub!",
+	Tab = Settings,
+	Options = {
+		["Light Mode"] = "Light",
+		["Dark Mode"] = "Dark",
+		["Extra Dark"] = "Void",
+	},
+	Callback = function(Theme) 
+		Window:SetTheme(Themes[Theme])
+	end,
+}) 
+
+Window:AddToggle({
+	Title = "UI Blur",
+	Description = "If enabled, must have your Roblox graphics set to 8+ for it to work",
+	Default = true,
+	Tab = Settings,
+	Callback = function(Boolean) 
+		Window:SetSetting("Blur", Boolean)
+	end,
+}) 
+
+
+Window:AddSlider({
+	Title = "UI Transparency",
+	Description = "Set the transparency of the UI",
+	Tab = Settings,
+	AllowDecimals = true,
+	MaxValue = 1,
+	Callback = function(Amount) 
+		Window:SetSetting("Transparency", Amount)
+	end,
+}) 
+
+Window:Notify({
+	Title = "Aura Hub 🎗️",
+	Description = "Press Left Alt to Minimize and Open the tab!", 
+	Duration = 10
 })
-OrionLib:MakeNotification({
-	Name = "Aura Hub 🎗️ ",
-	Content = "🎗️The best🎗️",
-	Image = "rbxassetid://4483345998",
-	Time = 5
-})
+
+--// Keybind Example
+UserInputService.InputBegan:Connect(function(Key) 
+	if Key == Keybind then
+		warn("You have pressed the minimize keybind!");
+	end
+end)
