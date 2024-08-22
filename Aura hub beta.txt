@@ -152,7 +152,16 @@ Window:AddSection({ Name = "Credits", Tab = credits })
 Window:AddSection({ Name = "Settings", Tab = Settings })
 
 Window:AddButton({
-	Title = "Infiniye Yield",
+	Title = "Unc Test",
+	Description = "Safe test script.",
+	Tab = universal,
+	Callback = function() 
+		loadstring(game:HttpGet('https://raw.githubusercontent.com/unified-naming-convention/NamingStandard/main/UNCCheckEnv.lua'))()
+      
+	end,
+}) 
+Window:AddButton({
+	Title = "Infinite Yield",
 	Description = "An admin script.",
 	Tab = universal,
 	Callback = function() 
